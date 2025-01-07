@@ -11,14 +11,14 @@ all the credis to original work:
 git clone
 cd  _cloned_directory_ 
 pip install . 
-´´´
+```
 
 ### command line usage 
 ```
 siren_sdf path', type=str, he --steps', type=int, --omega', type=int, --device', type=str --hidden_features', --hidden_layers', t
-´´´
+```
 
 ### set your system device 
 ```
 cpu , mps , cuda
-´´´
+```

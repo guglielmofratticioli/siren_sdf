@@ -8,8 +8,8 @@ all the credis to original work:
 
 ### how to install
 ```
-git clone
-cd  _cloned_directory_ 
+git clone https://github.com/guglielmofratticioli/siren_sdf.git
+cd  siren_sdf
 pip install . 
 ```
 

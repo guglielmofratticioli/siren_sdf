@@ -275,10 +275,9 @@ def train_siren(dataloader, hidden_features, hidden_layers, omega):
 
 
 def convert(path):
-    
     if path is not None:
         mesh_path = path
-    elif sys.argv[1] < 2 : 
+    elif len(sys.argv) < 2:
         print("Usage: sirend_sdf <path_to_mesh>")
         sys.exit(1)
     else: 

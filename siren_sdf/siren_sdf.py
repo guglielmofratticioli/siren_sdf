@@ -237,7 +237,7 @@ def serialize_to_shadertoy(siren, varname):
       line += ("dot(%s%d_%d,"%(varname, siren.hidden_layers, row)) + print_vec4(vec) + ")+\n    "
     print(line + "{:0.3f}".format(out_bias[outf])+";") 
     
-def train_siren(dataloader, hidden_features, hidden_layers, omega):
+def train_siren(dataloader, hidden_features, hidden_layers, omega, steps = 20000):
   model_input, ground_truth = next(iter(dataloader))
   model_input, ground_truth = model_input.to('mps'), ground_truth.to('mps')
 
@@ -249,7 +249,7 @@ def train_siren(dataloader, hidden_features, hidden_layers, omega):
   optim = torch.optim.Adam(lr=1e-4, params=img_curr.parameters(), weight_decay=.01)
   perm = torch.randperm(model_input.size(1))
 
-  total_steps = 20000
+  total_steps = steps
   update = int(total_steps/50)
   batch_size = 256*256
   for step in range(total_steps):
@@ -274,21 +274,30 @@ def train_siren(dataloader, hidden_features, hidden_layers, omega):
   return img_curr
 
 
-def convert(path=None):
+def convert(path=None, steps=20000, omega=15, hidden_features=16, hidden_layers=2  ):
     if path is not None:
         mesh_path = path
     elif len(sys.argv) < 1:
-        print("Usage: sirend_sdf <path_to_mesh>")
-        print(len(sys.argv))
+        print("Usage: sirend_sdf <path_to_mesh> <steps> <omega> <hidden_features> <hidden_layers>")
         sys.exit(1)
     else: 
-        mesh_path = sys.argv[1]
+        if len(sys.argv)>=1:
+            mesh_path = sys.argv[1]
+        if len(sys.argv)>=2:
+            steps = int(sys.argv[2])
+        if len(sys.argv)>=3:
+            omega = int(sys.argv[3])
+        if len(sys.argv)>=4:
+            hidden_layers = int(sys.argv[4])
+        if len(sys.argv)>=5:
+            omega = int(sys.argv[5])
+        
     
 
     sdf = SDFFitting(mesh_path, 256 * 256 * 4)
     print("Fitted SDF for %s" % mesh_path)
     sdfloader = DataLoader(sdf, batch_size=1, pin_memory=False, num_workers=0)
-    sdf_siren = train_siren(sdfloader, 16, 2, 15)
+    sdf_siren = train_siren(sdfloader, hidden_features, hidden_layers, omega, steps)
     print("> > > Trained Siren, here's the shader Code")
 
     serialize_to_shadertoy(sdf_siren, "f")

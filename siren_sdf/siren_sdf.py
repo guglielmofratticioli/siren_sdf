@@ -274,11 +274,12 @@ def train_siren(dataloader, hidden_features, hidden_layers, omega):
   return img_curr
 
 
-def convert(path):
+def convert(path=None):
     if path is not None:
         mesh_path = path
     elif len(sys.argv) < 1:
         print("Usage: sirend_sdf <path_to_mesh>")
+        print(len(sys.argv))
         sys.exit(1)
     else: 
         mesh_path = sys.argv[1]
@@ -287,7 +288,6 @@ def convert(path):
     sdf = SDFFitting(mesh_path, 256 * 256 * 4)
     print("Fitted SDF for %s" % mesh_path)
     sdfloader = DataLoader(sdf, batch_size=1, pin_memory=False, num_workers=0)
-
     sdf_siren = train_siren(sdfloader, 16, 2, 15)
     print("> > > Trained Siren, here's the shader Code")
 

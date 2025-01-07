@@ -287,7 +287,7 @@ def train_siren(dataloader, hidden_features, hidden_layers, omega, steps = 20000
   return img_curr
 
 
-def convert(path=None, steps=20000, omega=15, hidden_features=16, hidden_layers=2, device="cpu" ):
+def convert(path=None, steps=20000, omega=15, hidden_features=16, hidden_layers=2, device="mps" ):
     
     sdf = SDFFitting(path, 256 * 256 * 4)
     print("Fitted SDF for %s" % path)
@@ -302,7 +302,7 @@ def main():
     parser.add_argument('path', type=str, help='Path to the mesh file')
     parser.add_argument('--steps', type=int, default=20000, help='Number of training steps')
     parser.add_argument('--omega', type=int, default=15, help='Omega value for the SIREN model')
-    parser.add_argument('--device', type=str, default='cpu', choices=['cpu', 'cuda', 'mps'], help='Device to use for training')
+    parser.add_argument('--device', type=str, default='mps', choices=['cpu', 'cuda', 'mps'], help='Device to use for training')
     parser.add_argument('--hidden_features', type=int, default=16, help='Number of hidden features in the SIREN model')
     parser.add_argument('--hidden_layers', type=int, default=2, help='Number of hidden layers in the SIREN model')
 

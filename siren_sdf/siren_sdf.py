@@ -290,15 +290,16 @@ def convert(path=None, steps=20000, omega=15, hidden_features=16, hidden_layers=
     if path is not None:
         mesh_path = path
     elif len(sys.argv) < 1:
-        print("Usage: sirend_sdf <path_to_mesh> <steps> <omega> <hidden_features> <hidden_layers>")
+        print("Usage: sirend_sdf <path_to_mesh> <steps> <omega> <device> <hidden_features> <hidden_layers>")
         sys.exit(1)
     else: 
+
         if len(sys.argv)>=1:
             mesh_path = sys.argv[1]
         if len(sys.argv)>=2:
             steps = int(sys.argv[2])
         if len(sys.argv)>=3:
-            omega = int(sys.argv[3])
+            device = int(sys.argv[3])
         if len(sys.argv)>=4:
             hidden_layers = int(sys.argv[4])
         if len(sys.argv)>=5:
@@ -309,7 +310,7 @@ def convert(path=None, steps=20000, omega=15, hidden_features=16, hidden_layers=
     sdf = SDFFitting(mesh_path, 256 * 256 * 4)
     print("Fitted SDF for %s" % mesh_path)
     sdfloader = DataLoader(sdf, batch_size=1, pin_memory=False, num_workers=0)
-    sdf_siren = train_siren(sdfloader, hidden_features, hidden_layers, omega, steps)
+    sdf_siren = train_siren(sdfloader, hidden_features, hidden_layers, omega, steps, device)
     print("> > > Trained Siren, here's the shader Code")
 
     serialize_to_shadertoy(sdf_siren, "f")

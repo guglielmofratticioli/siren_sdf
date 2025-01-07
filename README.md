@@ -1,8 +1,9 @@
 pip installable repository for Siren_SDF code 
 
-all the credis to original work 
--> https://drive.google.com/drive/folders/13-ks7iyLyI0vcS38xq1eeFdaMdfNlUC8
--> https://www.youtube.com/watch?v=8pwXpfi-0bU
+all the credis to original work: 
+
+- https://drive.google.com/drive/folders/13-ks7iyLyI0vcS38xq1eeFdaMdfNlUC8
+-  https://www.youtube.com/watch?v=8pwXpfi-0bU
 
 
 ### how to install

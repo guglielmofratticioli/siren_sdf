@@ -287,10 +287,10 @@ def train_siren(dataloader, hidden_features, hidden_layers, omega, steps = 20000
   return img_curr
 
 
-def convert(path=None, steps=20000, omega=15, hidden_features=16, hidden_layers=2  ):
-
-    sdf = SDFFitting(mesh_path, 256 * 256 * 4)
-    print("Fitted SDF for %s" % mesh_path)
+def convert(path=None, steps=20000, omega=15, hidden_features=16, hidden_layers=2, device="mps" ):
+    
+    sdf = SDFFitting(path, 256 * 256 * 4)
+    print("Fitted SDF for %s" % path)
     sdfloader = DataLoader(sdf, batch_size=1, pin_memory=False, num_workers=0)
     sdf_siren = train_siren(sdfloader, hidden_features, hidden_layers, omega, steps, device)
     print("> > > Trained Siren, here's the shader Code")

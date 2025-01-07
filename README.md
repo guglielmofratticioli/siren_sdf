@@ -1,4 +1,4 @@
-pip installable repository for Siren_SDF code 
+pip installable repository for SDF mesh estimation with Siren
 
 all the credis to original work: 
 

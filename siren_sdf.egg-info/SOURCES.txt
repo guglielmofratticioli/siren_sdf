@@ -1,0 +1,8 @@
+setup.py
+siren_sdf/__init__.py
+siren_sdf/siren_sdf.py
+siren_sdf.egg-info/PKG-INFO
+siren_sdf.egg-info/SOURCES.txt
+siren_sdf.egg-info/dependency_links.txt
+siren_sdf.egg-info/entry_points.txt
+siren_sdf.egg-info/top_level.txt

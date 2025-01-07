@@ -5,18 +5,18 @@ setup(
     version='0.1.0',
     packages=find_packages(),
     install_requires=[
-        'torch',
-        'numpy',
-        'Pillow',
-        'scikit-image',
-        'trimesh',
-        'pyrender',
-        'torchvision',
-        'mesh-to-sdf'
+        # 'torch',
+        # 'numpy',
+        # 'Pillow',
+        # 'scikit-image',
+        # 'trimesh',
+        # 'pyrender',
+        # 'torchvision',
+        # 'mesh-to-sdf'
     ],
     entry_points={
         'console_scripts': [
-            'siren_sdf=siren_sdf:main',
+            'siren_sdf=siren_sdf.siren_sdf:convert',
         ],
     },
     author='Your Name',

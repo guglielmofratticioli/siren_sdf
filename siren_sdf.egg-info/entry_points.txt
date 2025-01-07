@@ -1,0 +1,2 @@
+[console_scripts]
+siren_sdf = siren_sdf.siren_sdf:convert

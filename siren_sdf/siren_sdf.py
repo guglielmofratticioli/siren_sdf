@@ -2,24 +2,25 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset
-import os
 
-from PIL import Image
+
 from torchvision.transforms import Resize, Compose, ToTensor, Normalize
 import numpy as np
-import skimage
+
 
 from mesh_to_sdf import get_surface_point_cloud
 from mesh_to_sdf.utils import sample_uniform_points_in_unit_sphere
 from math import sqrt
 import trimesh
-import pyrender
-import copy
-
-import time
-
 import sys
+import re
 
+# import pyrender
+# import copy
+# import os
+# from PIL import Image
+# import skimage
+# import time
 
 def get_mgrid(sidelen, dim=2):
     '''Generates a flattened grid of (x,y,...) coordinates in a range of -1 to 1.

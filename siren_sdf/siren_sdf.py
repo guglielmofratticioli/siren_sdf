@@ -238,13 +238,24 @@ def serialize_to_shadertoy(siren, varname):
       line += ("dot(%s%d_%d,"%(varname, siren.hidden_layers, row)) + print_vec4(vec) + ")+\n    "
     print(line + "{:0.3f}".format(out_bias[outf])+";") 
     
-def train_siren(dataloader, hidden_features, hidden_layers, omega, steps = 20000):
+def train_siren(dataloader, hidden_features, hidden_layers, omega, steps = 20000, device="mps"):
   model_input, ground_truth = next(iter(dataloader))
-  model_input, ground_truth = model_input.to('mps'), ground_truth.to('mps')
+  if device == "mps":
+    model_input, ground_truth = model_input.to('mps'), ground_truth.to('mps')
+  elif device == "cuda":
+    model_input, ground_truth = model_input.cuda(), ground_truth.cuda()
+  else : 
+    model_input, ground_truth = model_input.cpu(), ground_truth.cpu()
 
   img_curr = Siren(in_features=3, out_features=1, hidden_features=hidden_features, 
                    hidden_layers=hidden_layers, outermost_linear=True, omega=omega, first_linear=False)
-  img_curr.to('mps')
+  if device == "mps":
+    img_curr.to('mps')
+  elif device == "cuda":
+    img_curr.cuda()
+  else : 
+    img_curr.cpu()
+
   #optim = torch.optim.Adagrad(params=img_curr.parameters())
   #optim = torch.optim.Adam(lr=1e-3, params=img_curr.parameters())
   optim = torch.optim.Adam(lr=1e-4, params=img_curr.parameters(), weight_decay=.01)

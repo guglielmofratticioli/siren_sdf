@@ -14,6 +14,7 @@ from math import sqrt
 import trimesh
 import sys
 import re
+import argparse
 
 # import pyrender
 # import copy
@@ -287,25 +288,6 @@ def train_siren(dataloader, hidden_features, hidden_layers, omega, steps = 20000
 
 
 def convert(path=None, steps=20000, omega=15, hidden_features=16, hidden_layers=2  ):
-    if path is not None:
-        mesh_path = path
-    elif len(sys.argv) < 1:
-        print("Usage: sirend_sdf <path_to_mesh> <steps> <omega> <device> <hidden_features> <hidden_layers>")
-        sys.exit(1)
-    else: 
-
-        if len(sys.argv)>=1:
-            mesh_path = sys.argv[1]
-        if len(sys.argv)>=2:
-            steps = int(sys.argv[2])
-        if len(sys.argv)>=3:
-            device = int(sys.argv[3])
-        if len(sys.argv)>=4:
-            hidden_layers = int(sys.argv[4])
-        if len(sys.argv)>=5:
-            omega = int(sys.argv[5])
-        
-    
 
     sdf = SDFFitting(mesh_path, 256 * 256 * 4)
     print("Fitted SDF for %s" % mesh_path)
@@ -315,6 +297,24 @@ def convert(path=None, steps=20000, omega=15, hidden_features=16, hidden_layers=
 
     serialize_to_shadertoy(sdf_siren, "f")
 
+def main():
+    parser = argparse.ArgumentParser(description='Convert a mesh to SDF and train a SIREN model.')
+    parser.add_argument('path', type=str, help='Path to the mesh file')
+    parser.add_argument('--steps', type=int, default=20000, help='Number of training steps')
+    parser.add_argument('--omega', type=int, default=15, help='Omega value for the SIREN model')
+    parser.add_argument('--device', type=str, default='mps', choices=['cpu', 'cuda', 'mps'], help='Device to use for training')
+    parser.add_argument('--hidden_features', type=int, default=16, help='Number of hidden features in the SIREN model')
+    parser.add_argument('--hidden_layers', type=int, default=2, help='Number of hidden layers in the SIREN model')
+
+    args = parser.parse_args()
+
+    sdf = SDFFitting(args.path, 256 * 256 * 4)
+    print("Fitted SDF for %s" % args.path)
+    sdfloader = DataLoader(sdf, batch_size=1, pin_memory=False, num_workers=0)
+    sdf_siren = train_siren(sdfloader, args.hidden_features, args.hidden_layers, args.omega, args.steps, args.device)
+    print("> > > Trained Siren, here's the shader Code")
+
+    serialize_to_shadertoy(sdf_siren, "f")
+
 if __name__ == "__main__":
-    convert()
-   
+    main()

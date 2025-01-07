@@ -22,7 +22,7 @@ setup(
     author='Your Name',
     author_email='your.email@example.com',
     description='A description of your project',
-    #url='https://github.com/yourusername/your-repo',
+    url='https://github.com/guglielmofratticioli/siren_sdf.git',
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',

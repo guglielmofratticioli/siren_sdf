@@ -16,7 +16,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'siren_sdf=siren_sdf.siren_sdf:main',
+            'siren_sdf=siren_sdf.siren_sdf:convert',
         ],
     },
     author='Your Name',
